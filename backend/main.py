@@ -17,6 +17,10 @@ DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "postgresql+psycopg://postgres:12345@localhost:5432/Sample_Project_3",
 )
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+psycopg://", 1)
+elif DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg://", 1)
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
@@ -102,9 +106,14 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(title="Bookmarked API", lifespan=lifespan)
+allowed_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
+frontend_host = os.getenv("FRONTEND_HOST")
+if frontend_host:
+    allowed_origins.append(f"https://{frontend_host}")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

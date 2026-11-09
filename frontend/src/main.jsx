@@ -3,7 +3,9 @@ import { createRoot } from "react-dom/client";
 import { Bookmark, Check, ChevronDown, Feather, LogOut, Plus, Search, Star, Trash2, X, Sparkles } from "lucide-react";
 import "./styles.css";
 
-const API_URL = "http://localhost:8000/api";
+const API_URL = import.meta.env.VITE_API_HOST
+  ? `https://${import.meta.env.VITE_API_HOST}/api`
+  : import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 const genres = ["Fiction", "Mystery", "Fantasy", "Romance", "Science Fiction", "Biography", "History", "Self-help", "Poetry"];
 
 function LogoMark() {

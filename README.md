@@ -46,6 +46,14 @@ npm run dev
 
 Open the URL Vite prints, normally `http://localhost:5173`.
 
+## Deploy with Render
+
+Push this repository to GitHub, then in Render choose **New → Blueprint** and
+select the repository. Render reads the root `render.yaml` and creates the
+frontend, API, and PostgreSQL database. Review the resources and click **Apply**.
+The frontend and API hostnames and the database connection are wired through
+Blueprint environment variables.
+
 ## Features
 
 - Registration and login with unique email addresses.
